@@ -1,81 +1,26 @@
-import { IsNotEmpty, IsNumber, IsUUID, ValidateNested } from 'class-validator';
-import {
-    Authorized, Body, Delete, Get, JsonController, OnUndefined, Param, Post, Put
-} from 'routing-controllers';
-import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
+import { Get, JsonController, OnUndefined, Param } from 'routing-controllers';
 
-import { PetNotFoundError } from '../errors/PetNotFoundError';
-import { Pet } from '../models/Pet';
-import { PetService } from '../services/PetService';
-import { UserResponse } from './UserController';
+import { OrderDetailsNotFoundError } from '../errors/OrderDetailsNotFoundError';
+import { OrderDetailsService } from '../services/OrderDetailsService';
 
-class BasePet {
-    @IsNotEmpty()
-    public name: string;
+// import OrderDetailsSchema from '../models/OrderDetails';
 
-    @IsNumber()
-    public age: number;
-}
-
-export class PetResponse extends BasePet {
-    @IsUUID()
-    public id: string;
-
-    @ValidateNested()
-    public user: UserResponse;
-}
-
-class CreatePetBody extends BasePet {
-    @IsUUID()
-    public userId: string;
-}
-
-@Authorized()
-@JsonController('/pets')
-@OpenAPI({ security: [{ basicAuth: [] }] })
-export class PetController {
+@JsonController('/order-details')
+export class OrderDetailsController {
 
     constructor(
-        private petService: PetService
+        private orderDetailsService: OrderDetailsService
     ) { }
 
     @Get()
-    @ResponseSchema(PetResponse, { isArray: true })
-    public find(): Promise<Pet[]> {
-        return this.petService.find();
+    public find(): Promise<any> {
+        return this.orderDetailsService.find();
     }
 
-    @Get('/:id')
-    @OnUndefined(PetNotFoundError)
-    @ResponseSchema(PetResponse)
-    public one(@Param('id') id: string): Promise<Pet | undefined> {
-        return this.petService.findOne(id);
-    }
-
-    @Post()
-    @ResponseSchema(PetResponse)
-    public create(@Body({ required: true }) body: CreatePetBody): Promise<Pet> {
-        const pet = new Pet();
-        pet.age = body.age;
-        pet.name = body.name;
-        pet.userId = body.userId;
-
-        return this.petService.create(pet);
-    }
-
-    @Put('/:id')
-    @ResponseSchema(PetResponse)
-    public update(@Param('id') id: string, @Body() body: BasePet): Promise<Pet> {
-        const pet = new Pet();
-        pet.age = body.age;
-        pet.name = body.name;
-
-        return this.petService.update(id, pet);
-    }
-
-    @Delete('/:id')
-    public delete(@Param('id') id: string): Promise<void> {
-        return this.petService.delete(id);
+    @Get('/:order_id')
+    @OnUndefined(OrderDetailsNotFoundError)
+    public findOne(@Param('order_id') order_id: string): Promise<any> {
+        return this.orderDetailsService.findOne(order_id);
     }
 
 }

@@ -24,7 +24,7 @@ export const mongoLoader: MicroframeworkLoader = async (settings: Microframework
 
         connection =  mongoose.connection;
 
-        connection.on('connected',  () => {
+        connection.on('connected', async () => {
             console.log(connected('Connected to MongoDB'));
         });
 
