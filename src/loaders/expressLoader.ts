@@ -1,6 +1,7 @@
-import { Application } from 'express';
+import express, { Application } from 'express';
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
-import { createExpressServer } from 'routing-controllers';
+// import { createExpressServer, useExpressServer } from 'routing-controllers';
+import { useExpressServer } from 'routing-controllers';
 
 import { authorizationChecker } from '../auth/authorizationChecker';
 import { currentUserChecker } from '../auth/currentUserChecker';
@@ -14,7 +15,13 @@ export const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSett
          * We create a new express server instance.
          * We could have also use useExpressServer here to attach controllers to an existing express instance.
          */
-        const expressApp: Application = createExpressServer({
+
+        const app = express();
+        app.use(express.json());
+        app.use(express.urlencoded({ extended: true }));
+
+        // const expressApp: Application = createExpressServer({
+        const expressApp: Application = useExpressServer(app, {
             cors: true,
             classTransformer: true,
             routePrefix: env.app.routePrefix,

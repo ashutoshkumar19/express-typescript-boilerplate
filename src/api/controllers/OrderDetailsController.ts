@@ -10,7 +10,7 @@ export class OrderDetailsController {
 
     constructor(
         private orderDetailsService: OrderDetailsService,
-        private url: string = '/order-details'
+        private url: string = '/api/order-details'
     ) { }
 
     @Get()

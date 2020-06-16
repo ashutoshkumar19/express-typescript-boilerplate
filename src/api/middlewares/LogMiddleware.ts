@@ -1,9 +1,10 @@
 import * as express from 'express';
-// import morgan from 'morgan';
 import { ExpressMiddlewareInterface, Middleware } from 'routing-controllers';
 
-// import { env } from '../../env';
 import { Logger } from '../../lib/logger';
+
+// import morgan from 'morgan';
+// import { env } from '../../env';
 
 @Middleware({ type: 'before' })
 export class LogMiddleware implements ExpressMiddlewareInterface {
@@ -15,10 +16,12 @@ export class LogMiddleware implements ExpressMiddlewareInterface {
             type: 'Request',
             method: req.method,
             url: req.url,
+            body: req.body,
         };
         this.log.info(JSON.stringify(data));
         next();
     }
+
     // public use(req: express.Request, res: express.Response, next: express.NextFunction): any {
     //     return morgan(env.log.output, {
     //         stream: {
