@@ -15,7 +15,6 @@ export class LogMiddleware implements ExpressMiddlewareInterface {
             type: 'Request',
             method: req.method,
             url: req.url,
-            body: req.body,
         };
         this.log.info(JSON.stringify(data));
         next();

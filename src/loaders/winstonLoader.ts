@@ -22,21 +22,20 @@ export const winstonLoader: MicroframeworkLoader = (settings: MicroframeworkSett
                     ),
             }),
             new transports.File({
-                filename: './logs/info.log',
-                level: 'info',
+                filename: './logs/log.log',
                 format: format.combine(
                     format.timestamp(),
                     format.simple()
                 ),
              }),
-             new transports.File({
-                filename: './logs/error.log',
-                level: 'error',
-                format: format.combine(
-                    format.timestamp(),
-                    format.simple()
-                ),
-             }),
+            //  new transports.File({
+            //     filename: './logs/error.log',
+            //     level: 'error',
+            //     format: format.combine(
+            //         format.timestamp(),
+            //         format.simple()
+            //     ),
+            //  }),
         ],
         exitOnError: false,
     });
