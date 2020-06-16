@@ -11,13 +11,33 @@ export const winstonLoader: MicroframeworkLoader = (settings: MicroframeworkSett
                 handleExceptions: true,
                 format: env.node !== 'development'
                     ? format.combine(
-                        format.json()
+                        format.colorize(),
+                        format.timestamp(),
+                        format.simple()
                     )
                     : format.combine(
                         format.colorize(),
+                        format.timestamp(),
                         format.simple()
                     ),
             }),
+            new transports.File({
+                filename: './logs/info.log',
+                level: 'info',
+                format: format.combine(
+                    format.timestamp(),
+                    format.simple()
+                ),
+             }),
+             new transports.File({
+                filename: './logs/error.log',
+                level: 'error',
+                format: format.combine(
+                    format.timestamp(),
+                    format.simple()
+                ),
+             }),
         ],
+        exitOnError: false,
     });
 };

@@ -34,29 +34,29 @@ export class Logger {
         this.scope = Logger.parsePathToScope((scope) ? scope : Logger.DEFAULT_SCOPE);
     }
 
-    public debug(message: string, ...args: any[]): void {
+    public debug(message: any, ...args: any[]): void {
         this.log('debug', message, args);
     }
 
-    public info(message: string, ...args: any[]): void {
+    public info(message: any, ...args: any[]): void {
         this.log('info', message, args);
     }
 
-    public warn(message: string, ...args: any[]): void {
+    public warn(message: any, ...args: any[]): void {
         this.log('warn', message, args);
     }
 
-    public error(message: string, ...args: any[]): void {
+    public error(message: any, ...args: any[]): void {
         this.log('error', message, args);
     }
 
-    private log(level: string, message: string, args: any[]): void {
+    private log(level: string, message: any, args: any[]): void {
         if (winston) {
             winston[level](`${this.formatScope()} ${message}`, args);
         }
     }
 
-    private formatScope(): string {
+    private formatScope(): any {
         return `[${this.scope}]`;
     }
 

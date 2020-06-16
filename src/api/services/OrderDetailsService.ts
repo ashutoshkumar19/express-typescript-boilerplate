@@ -11,14 +11,30 @@ export class OrderDetailsService {
         @Logger(__filename) private log: LoggerInterface
     ) { }
 
-    public find(): Promise<any> {
-        this.log.info('Find all order details');
-        return this.orderDetailsRepository.collection.find().toArray();
+    public find(url: string): Promise<any> {
+        const res =  this.orderDetailsRepository.collection.find().toArray();
+        this.logData(url, 'Find all order details');
+        return res;
     }
 
-    public findOne(order_id: string): Promise<any> {
-        this.log.info('Find one order detail');
-        return this.orderDetailsRepository.collection.findOne({ order_id: `${order_id}` });
+    public findOne(url: string, order_id: string): Promise<any> {
+        const res = this.orderDetailsRepository.collection.findOne({ order_id: `${order_id}` });
+        this.logData(url, 'Find one order detail');
+        return res;
+    }
+
+    public logData(_url: string, _description: string): any {
+        try {
+            const logData = {
+                type: 'Response',
+                url: _url,
+                description: _description,
+            };
+            this.log.info(JSON.stringify(logData));
+
+        } catch (error) {
+            this.log.error(error);
+        }
     }
 
 }

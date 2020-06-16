@@ -9,18 +9,20 @@ import { OrderDetailsService } from '../services/OrderDetailsService';
 export class OrderDetailsController {
 
     constructor(
-        private orderDetailsService: OrderDetailsService
+        private orderDetailsService: OrderDetailsService,
+        private url: string = '/order-details'
     ) { }
 
     @Get()
     public find(): Promise<any> {
-        return this.orderDetailsService.find();
+        return this.orderDetailsService.find(this.url);
     }
 
     @Get('/:order_id')
     @OnUndefined(OrderDetailsNotFoundError)
     public findOne(@Param('order_id') order_id: string): Promise<any> {
-        return this.orderDetailsService.findOne(order_id);
+        const url = this.url + '/' + order_id;
+        return this.orderDetailsService.findOne(url, order_id);
     }
 
 }
