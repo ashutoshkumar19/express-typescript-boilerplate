@@ -15,7 +15,7 @@ export const mongoLoader: MicroframeworkLoader = async (settings: Microframework
     const uri = env.mongodb.uri;
 
     try {
-        mongoose.connect(uri, {
+        await mongoose.connect(uri, {
             useNewUrlParser: true,
             useFindAndModify: true,
             useUnifiedTopology: true,

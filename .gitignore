@@ -1,7 +1,7 @@
 # @w3tec
 
 # Logs #
-/logs
+/logs/*
 *.log
 *.log*
 
